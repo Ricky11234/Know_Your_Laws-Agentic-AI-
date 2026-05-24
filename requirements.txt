@@ -1,0 +1,16 @@
+streamlit
+langchain
+langgraph
+langchain-community
+langchain-core
+langchain-groq
+langchain-huggingface
+faiss-cpu
+sentence-transformers
+python-dotenv
+pymupdf
+tavily-python
+wikipedia
+pydantic
+beautifulsoup4
+lxml
