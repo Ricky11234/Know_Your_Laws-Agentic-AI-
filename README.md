@@ -14,8 +14,8 @@ to provide context-aware legal question answering over Indian bare acts.
 ---
 
 ## 🚧 Project Status
-
-This project is currently under active development.
+- Initial baseline prototype completed.
+But project is still under active development as I look to add some more features.
 
 The current version is a functional baseline prototype focused on:
 - legal document retrieval
