@@ -1,108 +1,151 @@
-⚖️ Know Your Laws - Agentic AI
+# ⚖️ Know Your Laws - Agentic AI
 
-An Agentic Retrieval-Augmented Generation (RAG) system designed to answer questions related to Indian laws using a combination of legal document retrieval, LLM reasoning, and corrective web search.
+An Agentic Retrieval-Augmented Generation (RAG) system for answering questions related to Indian laws using legal document retrieval, large language models, and corrective web search.
 
-The system first searches a curated legal corpus and then dynamically decides whether the retrieved information is sufficient to answer the user's query. If the information is unavailable or incomplete, it performs an external search and transparently informs the user.
+The system first searches a curated legal corpus and evaluates whether the retrieved information is sufficient to answer the user's query. If the information is unavailable or incomplete, it automatically performs external search and transparently informs the user about the source of the answer.
 
-🚀 Features
-📚 Legal Document Retrieval
-Bharatiya Nagarik Suraksha Sanhita (BNSS), 2023
-Information Technology Act, 2000
-Consumer Protection Act, 2019
-🔍 FAISS Vector Search
-Sentence-Transformer Embeddings
-Persistent FAISS Index
-Fast Semantic Retrieval
-🤖 Agentic RAG Architecture
-Retrieval Agent
-Context Evaluation Agent
-Corrective RAG Pipeline
-🌐 Corrective Web Search
-Tavily Search Integration
-Automatic fallback when legal corpus lacks sufficient information
-💬 Conversational Question Understanding
-Follow-up questions supported
-Context-aware query rewriting
-Multi-turn legal conversations
-📊 Source Attribution & Confidence Scoring
-📚 Legal Corpus → High Confidence
-🌐 External Search → Medium Confidence
-⚠️ System Responses → Low Confidence
-🖥️ Interactive Streamlit Interface
-Chat-based interaction
-Example legal queries
-Conversation history
-Response time tracking
-🏗️ System Architecture
+---
 
+## 🎯 Project Motivation
+
+Legal information is often scattered across lengthy documents and legislative texts, making it difficult for citizens to quickly find relevant information.
+
+This project aims to build an intelligent legal assistant capable of:
+
+* Understanding natural language questions
+* Retrieving relevant legal provisions
+* Providing structured explanations
+* Handling follow-up questions
+* Transparently indicating information sources
+* Falling back to external search when the legal corpus is insufficient
+
+---
+
+## 🚀 Features
+
+### 📚 Legal Corpus Search
+
+Current legal corpus includes:
+
+* Bharatiya Nagarik Suraksha Sanhita (BNSS), 2023
+* Information Technology Act, 2000
+* Consumer Protection Act, 2019
+
+### 🔍 Semantic Retrieval
+
+* Sentence Transformer Embeddings
+* FAISS Vector Database
+* Persistent Local Index
+* Fast Similarity Search
+
+### 🤖 Agentic RAG Pipeline
+
+* Retrieval Agent
+* Context Evaluation Agent
+* Corrective RAG Workflow
+* Source Attribution Layer
+
+### 💬 Conversational Legal Assistant
+
+* Follow-up Questions
+* Context-Aware Query Rewriting
+* Multi-Turn Conversations
+
+### 🌐 Corrective Web Search
+
+When information is not available in the legal corpus:
+
+* Tavily Search Integration
+* Automatic Information Retrieval
+* Transparent Source Disclosure
+
+### 📊 Confidence & Source Attribution
+
+Every response is classified as:
+
+| Source             | Confidence |
+| ------------------ | ---------- |
+| 📚 Legal Corpus    | High       |
+| 🌐 External Search | Medium     |
+| ⚠️ System Response | Low        |
+
+### 🖥️ Interactive Interface
+
+* Streamlit Chat UI
+* Response Time Monitoring
+* Chat History
+* Example Questions
+* One-Click Chat Reset
+
+---
+
+# 🏗️ System Architecture
+
+```text
 User Question
-
-↓
-
+        │
+        ▼
+Conversation Context
+        │
+        ▼
 Query Rewriting
-
-↓
-
+        │
+        ▼
 FAISS Retriever
-
-↓
-
+        │
+        ▼
 Context Evaluator
+        │
+ ┌──────┴──────┐
+ │             │
+ ▼             ▼
+SUFFICIENT   INSUFFICIENT
+ │             │
+ ▼             ▼
+RAG Answer   Tavily Search
+ │             │
+ ▼             ▼
+Final Answer Generation
+        │
+        ▼
+Source Attribution
+        │
+        ▼
+User Response
+```
 
-↓
+---
 
-┌───────────────┐
+# 🛠️ Tech Stack
 
-│ SUFFICIENT │
+## LLMs
 
-└──────┬────────┘
+* Llama 3.3 70B Versatile (Groq)
+* Llama 3.1 8B Instant (Evaluator)
 
-↓
+## Frameworks
 
-Answer Generation
+* LangChain
+* LangGraph
+* Streamlit
 
-↓
+## Vector Database
 
-Legal Corpus Response
+* FAISS
 
-OR
+## Embeddings
 
-↓
+* all-MiniLM-L6-v2
 
-┌───────────────┐
+## External Search
 
-│ INSUFFICIENT │
+* Tavily Search API
 
-└──────┬────────┘
+---
 
-↓
+# 📂 Project Structure
 
-Tavily Search
-
-↓
-
-Corrective Answer Generation
-
-↓
-
-External Search Response
-
-🛠️ Tech Stack
-LLMs
-Groq
-Llama 3.3 70B Versatile
-Llama 3.1 8B Instant
-Frameworks
-LangChain
-LangGraph
-Streamlit
-Vector Database
-FAISS
-Embeddings
-all-MiniLM-L6-v2
-External Search
-Tavily Search API
-📂 Project Structure
+```text
 Know_Your_Laws-Agentic-AI/
 │
 ├── data/
@@ -121,52 +164,107 @@ Know_Your_Laws-Agentic-AI/
 ├── main.py
 ├── requirements.txt
 └── README.md
-⚙️ Running Locally
-1. Clone Repository
-git clone <your-repository-url>
+```
+
+---
+
+# ⚙️ Running Locally
+
+## 1. Clone the Repository
+
+```bash
+git clone <repository-url>
 cd Know_Your_Laws-Agentic-AI
-2. Create Virtual Environment
+```
+
+## 2. Create a Virtual Environment
 
 Using UV:
 
+```bash
 uv venv
+```
 
 Activate:
 
-Windows
+### Windows
+
+```bash
 .venv\Scripts\activate
-Linux / Mac
+```
+
+### Linux / Mac
+
+```bash
 source .venv/bin/activate
-3. Install Dependencies
+```
+
+## 3. Install Dependencies
+
+```bash
 uv pip install -r requirements.txt
-4. Create Environment File
+```
 
-Create a .env file in the project root.
+## 4. Configure Environment Variables
 
+Create a `.env` file in the project root:
+
+```env
 GROQ_API_KEY="your_groq_api_key"
 TAVILY_API_KEY="your_tavily_api_key"
-5. Run Application
+```
+
+## 5. Run the Application
+
+```bash
 python -m streamlit run streamlit_app.py
+```
 
 The application will launch at:
 
+```text
 http://localhost:8501
-🔑 API Keys Required
-Groq API
+```
+
+---
+
+# ☁️ Deploying on Streamlit Cloud
+
+1. Push the repository to GitHub
+2. Create a new Streamlit Cloud application
+3. Connect your GitHub repository
+4. Add the following secrets:
+
+```toml
+GROQ_API_KEY="your_groq_api_key"
+TAVILY_API_KEY="your_tavily_api_key"
+```
+
+5. Deploy the application
+
+---
+
+# 🔑 API Keys Required
+
+## Groq API
 
 Used for:
 
-Answer Generation
-Context Evaluation
-Query Rewriting
-Tavily API
+* Answer Generation
+* Query Rewriting
+* Context Evaluation
+
+## Tavily API
 
 Used for:
 
-Corrective Web Search
-Retrieval of information unavailable in the legal corpus
-⚠️ Disclaimer
+* Corrective Search
+* External Knowledge Retrieval
 
-This project is intended for educational and research purposes.
+---
 
-Responses generated by the system should not be considered legal advice. Users should consult qualified legal professionals for legal decisions and interpretations.
+# ⚠️ Disclaimer
+
+This project is intended for educational and research purposes only.
+
+The responses generated by the system should not be considered legal advice. Always consult qualified legal professionals before making legal decisions.
