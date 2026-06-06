@@ -41,6 +41,14 @@ if "chat_history" not in st.session_state:
 
     st.session_state.chat_history=[]
 
+# Display previous chat history first
+for msg in st.session_state.chat_history:
+
+    with st.chat_message(msg["role"]):
+
+        st.markdown(msg["content"])
+
+# Input box at bottom
 question=st.chat_input("Ask your legal question here...")
 
 if question:
@@ -53,7 +61,6 @@ if question:
     )
 
     with st.chat_message("user"):
-
         st.markdown(question)
 
     with st.chat_message("assistant"):
@@ -63,11 +70,9 @@ if question:
             start=time.time()
 
             try:
-
                 answer=rag_system.ask(question)
 
             except Exception as e:
-
                 answer=f"Error: {e}"
 
             elapsed=time.time()-start
@@ -82,9 +87,3 @@ if question:
             "content":answer
         }
     )
-
-for msg in st.session_state.chat_history:
-
-    with st.chat_message(msg["role"]):
-
-        st.markdown(msg["content"])

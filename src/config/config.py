@@ -5,6 +5,7 @@ from langchain_groq import ChatGroq
 
 load_dotenv()
 
+
 class Config:
 
     GROQ_API_KEY=os.getenv("GROQ_API_KEY") or st.secrets["GROQ_API_KEY"]
@@ -12,6 +13,8 @@ class Config:
     TAVILY_API_KEY=os.getenv("TAVILY_API_KEY") or st.secrets["TAVILY_API_KEY"]
 
     LLM_MODEL="llama-3.3-70b-versatile"
+
+    EVALUATOR_MODEL="llama-3.1-8b-instant"
 
     EMBEDDING_MODEL="all-MiniLM-L6-v2"
 
@@ -37,6 +40,17 @@ class Config:
 
         return ChatGroq(
             model=cls.LLM_MODEL,
+            api_key=cls.GROQ_API_KEY,
+            temperature=0
+        )
+
+    @classmethod
+    def get_evaluator_llm(cls):
+
+        cls.validate()
+
+        return ChatGroq(
+            model=cls.EVALUATOR_MODEL,
             api_key=cls.GROQ_API_KEY,
             temperature=0
         )
