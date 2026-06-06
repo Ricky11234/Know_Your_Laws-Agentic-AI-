@@ -30,9 +30,13 @@ class Retriever:
             self.embeddings
         )
 
-        self.vectorstore.save_local(self.INDEX_PATH)
+        self.vectorstore.save_local(
+            self.INDEX_PATH
+        )
 
-        print(f"FAISS index saved to {self.INDEX_PATH}")
+        print(
+            f"FAISS index saved to {self.INDEX_PATH}"
+        )
 
         self.retriever = self.vectorstore.as_retriever(
             search_kwargs={"k": 8}
@@ -40,14 +44,19 @@ class Retriever:
 
     def load_retriever(self):
 
-        index_folder = Path(self.INDEX_PATH)
+        index_folder = Path(
+            self.INDEX_PATH
+        )
 
         if not index_folder.exists():
+
             raise FileNotFoundError(
                 f"No FAISS index found at {self.INDEX_PATH}"
             )
 
-        print("Loading existing FAISS index...")
+        print(
+            "Loading existing FAISS index..."
+        )
 
         self.vectorstore = FAISS.load_local(
             self.INDEX_PATH,
@@ -59,11 +68,15 @@ class Retriever:
             search_kwargs={"k": 8}
         )
 
-        print("FAISS index loaded successfully.")
+        print(
+            "FAISS index loaded successfully."
+        )
 
     def index_exists(self):
 
-        index_folder = Path(self.INDEX_PATH)
+        index_folder = Path(
+            self.INDEX_PATH
+        )
 
         return (
             index_folder.exists()
@@ -71,13 +84,31 @@ class Retriever:
             and (index_folder / "index.pkl").exists()
         )
 
-    def retrieve(self, query: str, k: int = 4) -> list[Document]:
+    def retrieve(
+        self,
+        query: str,
+        k: int = 4
+    ) -> list[Document]:
 
         if self.retriever is None:
+
             raise ValueError(
-                "Retriever not initialized. Call create_retriever() or load_retriever() first."
+                "Retriever not initialized. "
+                "Call create_retriever() or load_retriever() first."
             )
 
-        response = self.retriever.invoke(query)
+        response = self.retriever.invoke(
+            query
+        )
 
         return response[:k]
+
+    def get_retriever(self):
+
+        if self.retriever is None:
+
+            raise ValueError(
+                "Retriever not initialized."
+            )
+
+        return self.retriever

@@ -53,11 +53,27 @@ class AgenticRAG:
 
         print("System Ready")
 
-    def ask(self, question: str):
+    def ask(self, question: str, chat_history=None):
 
-        result = self.graph_builder.run(question)
+        if chat_history is None:
+            chat_history = []
+
+        result = self.graph_builder.run(
+            question=question,
+            chat_history=chat_history
+        )
 
         answer = result["answer"]
+
+        source_type = result.get(
+         "source_type",
+    ""
+)
+
+        confidence = result.get(
+    "confidence",
+    ""
+)
 
         print("\nQuestion:")
         print(question)
@@ -65,12 +81,18 @@ class AgenticRAG:
         print("\nAnswer:")
         print(answer)
 
-        return answer
+        return {
+    "answer": answer,
+    "source_type": source_type,
+    "confidence": confidence
+}
 
     def interactive_mode(self):
 
         print("\nInteractive Mode Started")
         print("Type 'quit' to exit\n")
+
+        history = []
 
         while True:
 
@@ -82,7 +104,24 @@ class AgenticRAG:
 
             if question:
 
-                self.ask(question)
+                answer = self.ask(
+                    question,
+                    history
+                )
+
+                history.append(
+                    {
+                        "role": "user",
+                        "content": question
+                    }
+                )
+
+                history.append(
+    {
+        "role": "assistant",
+        "content": answer["answer"]
+    }
+)
 
                 print("-" * 80)
 

@@ -1,17 +1,21 @@
 from langchain_core.documents import Document
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class RAGstate(BaseModel):
 
-    question:str
+    question: str
 
-    retrieved_docs:list[Document]=[]
+    chat_history: list[dict] = Field(default_factory=list)
 
-    answer:str=""
+    retrieved_docs: list[Document] = Field(default_factory=list)
 
-    context_quality:str=""
+    answer: str = ""
 
-    source_type:str=""
+    context_quality: str = ""
 
-    external_context:str=""
+    source_type: str = ""
+
+    confidence: str = ""
+
+    external_context: str = ""
