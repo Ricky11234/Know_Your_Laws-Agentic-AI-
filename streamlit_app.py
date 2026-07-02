@@ -15,9 +15,83 @@ LEGAL_DOCS = [
     "data/legal_pdfs/CP Act 2019_1732700731.pdf"
 ]
 
+# ---------------------------------------------------------------------- #
+# Mode selection screen (shown until the user picks a mode)
+# ---------------------------------------------------------------------- #
+
+if "mode" not in st.session_state:
+
+    st.title("⚖️ Know Your Laws - Agentic AI")
+
+    st.subheader("How would you like your answers?")
+
+    st.markdown(
+        """
+This assistant answers questions on Indian law using a legal corpus
+(BNSS 2023, IT Act 2000, Consumer Protection Act 2019), and falls back
+to web search when the corpus does not cover your question.
+"""
+    )
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+
+        st.markdown("### 👔 Professional Mode")
+
+        st.markdown(
+            """
+For **lawyers and law students**.
+
+- Detailed, fully bulleted answers
+- Specific Act, provision and page cited for each point
+- Precise legal terminology
+"""
+        )
+
+        if st.button("Enter Professional Mode", use_container_width=True):
+
+            st.session_state.mode = "professional"
+
+            st.rerun()
+
+    with col2:
+
+        st.markdown("### 🧑 Normal Mode")
+
+        st.markdown(
+            """
+For **anyone needing quick legal guidance**.
+
+- Short, plain-language bullet-point overviews
+- No legal jargon
+- Sources named simply so you know where the info comes from
+"""
+        )
+
+        if st.button("Enter Normal Mode", use_container_width=True):
+
+            st.session_state.mode = "normal"
+
+            st.rerun()
+
+    st.stop()
+
+# ---------------------------------------------------------------------- #
+# Sidebar
+# ---------------------------------------------------------------------- #
+
 with st.sidebar:
 
     st.title("⚖️ Know Your Laws")
+
+    st.info(f"Current Mode: {st.session_state.mode.title()}")
+
+    if st.button("🔄 Switch Mode"):
+
+        del st.session_state["mode"]
+
+        st.rerun()
 
     st.markdown("---")
 
@@ -134,9 +208,15 @@ if question:
 
             try:
 
+                history_for_model = [
+                    {"role": m["role"], "content": m["content"]}
+                    for m in st.session_state.chat_history
+                ]
+
                 result = rag_system.ask(
                     question,
-                    st.session_state.chat_history
+                    history_for_model,
+                    st.session_state.mode
                 )
 
                 answer = result["answer"]

@@ -53,14 +53,15 @@ class AgenticRAG:
 
         print("System Ready")
 
-    def ask(self, question: str, chat_history=None):
+    def ask(self, question: str, chat_history=None, mode: str = "normal"):
 
         if chat_history is None:
             chat_history = []
 
         result = self.graph_builder.run(
             question=question,
-            chat_history=chat_history
+            chat_history=chat_history,
+            mode=mode
         )
 
         answer = result["answer"]
@@ -90,6 +91,14 @@ class AgenticRAG:
     def interactive_mode(self):
 
         print("\nInteractive Mode Started")
+
+        choice = input(
+            "Choose mode - [1] Professional  [2] Normal (default 2): "
+        ).strip()
+
+        mode = "professional" if choice == "1" else "normal"
+
+        print(f"Mode: {mode.title()}")
         print("Type 'quit' to exit\n")
 
         history = []
@@ -106,7 +115,8 @@ class AgenticRAG:
 
                 answer = self.ask(
                     question,
-                    history
+                    history,
+                    mode
                 )
 
                 history.append(

@@ -42,7 +42,8 @@ class GraphBuilder:
     def run(
         self,
         question: str,
-        chat_history=None
+        chat_history=None,
+        mode: str = "normal"
     ):
 
         if self.graph is None:
@@ -55,7 +56,8 @@ class GraphBuilder:
 
         initial_state = RAGstate(
             question=question,
-            chat_history=chat_history
+            chat_history=chat_history,
+            mode=mode
         )
 
         return self.graph.invoke(

@@ -8,6 +8,9 @@ class RAGstate(BaseModel):
 
     chat_history: list[dict] = Field(default_factory=list)
 
+    # "professional" for lawyers/law students, "normal" for laypeople.
+    mode: str = "normal"
+
     retrieved_docs: list[Document] = Field(default_factory=list)
 
     answer: str = ""
