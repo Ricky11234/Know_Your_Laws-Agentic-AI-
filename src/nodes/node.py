@@ -143,7 +143,10 @@ Question:
 Retrieved Context:
 {context}
 
-Can the question be answered accurately and completely using ONLY the retrieved context?
+Does the retrieved context contain the legal provisions that apply to this question,
+so that an answer can be based on it? It does not need to cover every detail.
+Answer SUFFICIENT if it does, INSUFFICIENT if it is about a different law or
+is missing the provisions needed.
 
 Return ONLY one word:
 
@@ -154,9 +157,13 @@ or
 INSUFFICIENT
 """
 
-        response = self.evaluator_llm.invoke(prompt)
-
-        result = response.content.strip().upper()
+        # gpt-oss sometimes returns an empty reply; ask once more before
+        # treating it as INSUFFICIENT.
+        result = ""
+        for _ in range(2):
+            result = (self.evaluator_llm.invoke(prompt).content or "").strip().upper()
+            if result:
+                break
 
         print(f"Evaluator Output: {result}")
 

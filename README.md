@@ -120,8 +120,10 @@ User Response
 
 ## LLMs
 
-* Llama 3.3 70B Versatile (Groq)
-* Llama 3.1 8B Instant (Evaluator)
+* GPT-OSS 120B on Groq (`openai/gpt-oss-120b`): answers
+* GPT-OSS 20B on Groq (`openai/gpt-oss-20b`): context evaluator
+* Qwen 3.8 27B on Groq (`qwen/qwen3.8-27b`, preview): automatic backup when the main model hits its daily limit (`FALLBACK_MODEL=none` turns it off)
+* Groq retired the Llama 3.x models used earlier in Aug 2026. To use another model, set `LLM_MODEL` / `EVALUATOR_MODEL` in `.env` or Streamlit secrets.
 
 ## Frameworks
 
